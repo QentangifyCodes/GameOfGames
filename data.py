@@ -1,10 +1,10 @@
 import pygame
 
 # EDIT THESE
-WALK_CYCLE_PATH = "Run placeholder"
+WALK_CYCLE_PATH = "Run_placeholder"
 WALK_FRAMES = 4
 
-IDLE_CYCLE_PATH = "Idle Placeholder"
+IDLE_CYCLE_PATH = "Idle_Placeholder"
 IDLE_FRAMES = 4
 
 # DO NOT TOUCH!
