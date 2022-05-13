@@ -1,4 +1,4 @@
-#Gamer
+#Gamer part 2
 def typeOut(message: str, speed: float = 0.000001):
     print(end="\n")
     i = 0
