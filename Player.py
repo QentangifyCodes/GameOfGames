@@ -10,20 +10,14 @@ class player:
 
     def Update(self):
         self.Draw()
-        self.getinput()
+        self.getInput()
 
     def Draw(self):
         pygame.draw.rect(self.screen, self.color, (self.x, self.y, 50, 100))
 
-    def getinput(self):
-        keys=pygame.key.get_pressed()
+    def getInput(self):
+        keys = pygame.key.get_pressed()
         if keys[pygame.K_RIGHT]:
-            self.x+=.25
+            self.x += .25
         if keys[pygame.K_LEFT]:
-            self.x+=-.25
-
-
-
-
-
-
+            self.x += -.25
