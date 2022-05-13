@@ -1,6 +1,20 @@
 import pygame
 
-image = [pygame.image.load("res/Player_Walk_Cycle/sprite_0.png"), pygame.image.load(
-    "res/Player_Walk_Cycle/sprite_1.png"),
-         pygame.image.load("res/Player_Walk_Cycle/sprite_2.png"), pygame.image.load(
-        "res/Player_Walk_Cycle/sprite_3.png")]
+# EDIT THESE
+WALK_CYCLE_PATH = "Player_Walk_Cycle"
+WALK_FRAMES = 4
+
+IDLE_CYCLE_PATH = ""
+IDLE_FRAMES = 4
+
+# DO NOT TOUCH
+WALK_CYCLE = []
+IDLE_CYCLE = []
+
+for i in range(WALK_FRAMES):
+    WALK_CYCLE.append(pygame.image.load(f"res/{WALK_CYCLE_PATH}/sprite_{i}.png"))
+
+for i in range(IDLE_FRAMES):
+    IDLE_CYCLE.append(pygame.image.load(f"res/{WALK_CYCLE_PATH}/sprite_{i}.png"))
+
+print(WALK_CYCLE)

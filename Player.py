@@ -2,7 +2,7 @@ import pygame
 
 
 class Player:
-    def __init__(self, screen: pygame.Surface, runCycle: list, position: pygame.Vector2):
+    def __init__(self, screen: pygame.Surface, runCycle: list, idleCycle:list, position: pygame.Vector2):
         # Screen and Position
         self.screen = screen
         self.position = position
@@ -10,6 +10,8 @@ class Player:
         # Lists of Animation
         self.runCycleRight = runCycle
         self.runCycleLeft = []
+        self.idleCycle = idleCycle
+
         self.currentAnimation = self.runCycleRight  # The current animation that is playing
 
         # Making the left run-cycle face left
@@ -33,7 +35,7 @@ class Player:
     def Draw(self):
         self.rect.center = self.position     # Centering the sprite at the current position
 
-        self.Animate() # Playing all animation
+        self.Animate()      # Playing all animation
         self.screen.blit(self.frame, self.rect)
 
     def Animate(self):
