@@ -4,7 +4,7 @@ import pygame
 WALK_CYCLE_PATH = "Run placeholder"
 WALK_FRAMES = 4
 
-IDLE_CYCLE_PATH = "Idle placeholder"
+IDLE_CYCLE_PATH = "Idle Placeholder"
 IDLE_FRAMES = 4
 
 # DO NOT TOUCH!
