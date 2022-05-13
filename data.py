@@ -1,7 +1,7 @@
 import pygame
 
 # EDIT THESE
-WALK_CYCLE_PATH = "Run_placeholder"
+WALK_CYCLE_PATH = "Run_Placeholder"
 WALK_FRAMES = 4
 
 IDLE_CYCLE_PATH = "Idle_Placeholder"
