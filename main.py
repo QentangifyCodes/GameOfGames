@@ -6,7 +6,7 @@ pygame.init()
 screen = pygame.display.set_mode((1000, 700))  # Setting Window Size
 pygame.display.set_caption('Placeholder')  # Setting Window Name
 
-p = Player(screen, WALK_CYCLE, IDLE_CYCLE, pygame.Vector2(50, 50))   # Creating Player Object
+p = Player(screen, WALK_CYCLE, IDLE_CYCLE, pygame.Vector2(40, 350))   # Creating Player Object
 
 # Game Loop
 running = True

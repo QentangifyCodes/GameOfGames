@@ -2,7 +2,7 @@ import pygame
 
 
 class Player:
-    def __init__(self, screen: pygame.Surface, runCycle: list, idleCycle:list, position: pygame.Vector2):
+    def __init__(self, screen: pygame.Surface, runCycle: list, idleCycle: list, position: pygame.Vector2):
         # Screen and Position
         self.screen = screen
         self.position = position
@@ -10,9 +10,14 @@ class Player:
         # Lists of Animation
         self.runCycleRight = runCycle
         self.runCycleLeft = []
-        self.idleCycle = idleCycle
 
-        self.currentAnimation = self.runCycleRight  # The current animation that is playing
+        self.idleCycleRight = idleCycle
+        self.idleCycleLeft = []
+        self.currentAnimation = self.idleCycleRight
+
+        # Making the left run-cycle face left
+        for image in self.idleCycleRight:
+            self.idleCycleLeft.append(pygame.transform.flip(image, True, False))
 
         # Making the left run-cycle face left
         for image in self.runCycleRight:
@@ -25,38 +30,43 @@ class Player:
         self.frameNumber = 0  # The frame number
         self.frameSpeed = 0.01  # The animation speed
         # The current frame in the animation
-        self.frame = pygame.transform.scale(self.currentAnimation[int(self.frameNumber)], (60, 60))
-        self.rect = self.frame.get_rect()                 # Don't worry about this
+        self.frame = pygame.transform.scale(self.currentAnimation[0], (200, 200))
+        self.rect = self.frame.get_rect()  # Don't worry about this
 
     def Update(self):
-        self.Draw()        # Drawing the sprite
-        self.GetInput()    # Getting player input and moving the sprite
+        self.Draw()  # Drawing the sprite
+        self.GetInput()  # Getting player input and moving the sprite
 
     def Draw(self):
-        self.rect.center = self.position     # Centering the sprite at the current position
+        self.rect.center = self.position  # Centering the sprite at the current position
 
-        self.Animate()      # Playing all animation
+        self.Animate()  # Playing all animation
         self.screen.blit(self.frame, self.rect)
 
     def Animate(self):
-        self.frameNumber += self.frameSpeed     # Playing each frame
+        self.frameNumber += self.frameSpeed  # Playing each frame
 
         # Choosing what animation to play if the player is running
-        if self.running:
-            if self.direction == -1:
+        if self.direction == -1:
+            if self.running:
                 self.currentAnimation = self.runCycleLeft
-            if self.direction == 1:
+            else:
+                self.currentAnimation = self.idleCycleLeft
+        if self.direction == 1:
+            if self.running:
                 self.currentAnimation = self.runCycleRight
+            else:
+                self.currentAnimation = self.idleCycleRight
 
         # Looping animation
         if self.frameNumber >= len(self.currentAnimation):
             self.frameNumber = 0
 
         # Making the current frame larger
-        self.frame = pygame.transform.scale(self.currentAnimation[int(self.frameNumber)], (60, 60))
+        self.frame = pygame.transform.scale(self.currentAnimation[int(self.frameNumber)], (200,200))
 
     def GetInput(self):
-        keys = pygame.key.get_pressed()     # Getting all keys pressed
+        keys = pygame.key.get_pressed()  # Getting all keys pressed
 
         # Moving depending on which key is pressed
         if keys[pygame.K_RIGHT]:
