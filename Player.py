@@ -13,7 +13,7 @@ class player:
         self.getInput()
 
     def Draw(self):
-        pygame.draw.rect(self.screen, self.color, (self.x, self.y, 50, 100))
+        pygame.draw.rect(self.screen, self.color, (self.x, self.y, 45, 75))
 
     def getInput(self):
         keys = pygame.key.get_pressed()
