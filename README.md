@@ -1,5 +1,5 @@
 # GameOfGames
-Small game with 3 team members so far. 
+Small game with 4 team members so far. 
 
 Sword Game?
 MetroidVania?
