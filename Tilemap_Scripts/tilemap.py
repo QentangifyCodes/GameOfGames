@@ -9,7 +9,8 @@ class Tilemap:
         self.cellSize = pygame.Vector2(50, 50)
         self.cells = []
         self.tilemapTosprite = {
-            "1": pygame.image.load("Tilemap_Scripts/Dirt.png")
+            "1": pygame.image.load("Tilemap_Scripts/TilemapAssets/Dirt.png"),
+            "2": pygame.image.load("Tilemap_Scripts/TilemapAssets/Grass.png")
         }
         self.player = player
 
@@ -42,11 +43,3 @@ class Tilemap:
             cell.DrawHitBox()
             cell.Update()
 
-'''
-
-    def CheckCollison(self, player:player.Player):
-        for cell in self.cells:
-            if player.hitbox.colliderect(cell.rect):
-                player.hitbox.centery = cell.rect.topleft[1]-player.hitbox.height/2
-                player.isJumping = False
-'''

@@ -9,28 +9,32 @@ class Tile:
         self.screen = screen
         self.position = position
         self.size = size
-        self.sprite = sprite
+        self.sprite = pygame.transform.scale(sprite, size)
         self.player = player
 
         # Hitbox
-        self.rect = pygame.Rect(self.position.x, self.position.y, self.size.x, self.size.y)
+        self.rect = self.sprite.get_rect()
+        self.rect.topleft = self.position
         self.hitBoxColor = (100, 100, 100)
 
     def DrawHitBox(self):
         pygame.draw.rect(self.screen, self.hitBoxColor, self.rect)
 
+    def Draw(self):
+        self.screen.blit(self.sprite, self.rect)
+
     def Update(self):
-        self.DrawHitBox()
+        self.Draw()
         self.CheckForCollision()
 
     def CheckForCollision(self):
         if self.player.hitbox.colliderect(self.rect):
-            if self.player.hitbox.y < self.rect.topleft[1]:
+            if self.player.hitbox.y < self.rect.top:
                 self.player.hitbox.bottom = self.rect.top
                 self.player.isJumping = False
                 self.player.velocity.y = 0
-            if self.player.hitbox.y > self.rect.topleft[1]:
+            elif self.player.hitbox.y > self.rect.centery:
                 self.player.hitbox.top = self.rect.bottom
-                self.player.hitbox.y += 1
-                self.player.velocity.y = -7
-
+                self.player.velocity.y = self.player.gravity
+                if self.player.velocity.x > 0:
+                    self.player.hitbox.x += 10
