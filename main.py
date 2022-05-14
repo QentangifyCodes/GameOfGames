@@ -1,21 +1,24 @@
-import pygame
-from Player import Player
-from data import *
+#Gamer
+def typeOut(message: str, speed: float = 0.000001):
+    print(end="\n")
+    i = 0
+    u = 0
+    while u < len(message):
+        i += speed
+        if int(i) > 1:
+            i = 0
+            print(message[u], end="")
+            u += 1
+    del i, u
 
-pygame.init()
-screen = pygame.display.set_mode((1000, 700))  # Setting Window Size
-pygame.display.set_caption('Placeholder')  # Setting Window Name
 
-p = Player(screen, WALK_CYCLE, IDLE_CYCLE, pygame.Vector2(40, 350))   # Creating Player Object
+typeOut("This is a test program")
+typeOut("We are using pygame now")
 
-# Game Loop
-running = True
-while running:
-    screen.fill((23, 23, 23))
-    p.Update()
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-    pygame.display.flip()
-
-    #sad
+while True:
+    s = input("\nEnter something to type out. Type 'end' to end: ")
+    if s.lower() == "end":
+        print("Stopping program")
+        break
+    typeOut("[You]: "+ s)
+    del s
