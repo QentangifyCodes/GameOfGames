@@ -1,11 +1,10 @@
 import pygame
 
-
 class Player:
     def __init__(self, screen: pygame.Surface):
         self.screen = screen
         self.position = pygame.Vector2(50, 350)
-        self.speed = 10
+        self.speed = 3
 
         # Hitbox
         self.hitBoxSize = pygame.Vector2(50, 100)
