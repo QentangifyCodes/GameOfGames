@@ -1,6 +1,6 @@
 import pygame
-from Player import Player
-from data import *
+from player import Player
+from data import WALK_CYCLE, IDLE_CYCLE
 
 pygame.init()
 screen = pygame.display.set_mode((1000, 700))  # Setting Window Size
