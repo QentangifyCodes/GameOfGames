@@ -8,12 +8,12 @@ class Tilemap:
         self.CellSize = pygame.Vector2(50, 50)
         self.Cells = []
 
-        x, y = 0, 0
+        x, y = 0, 400
         while x < 1000:
             while y < 700:
                 y += self.CellSize.y
-                self.Cells.append(Tile(self.Player, self.CellSize))
-            y = 0
+                self.Cells.append(Tile(self.Player, self.CellSize, pygame.Vector2(x,y)))
+            y = 400
             x += self.CellSize.y
 
     def Update(self):
