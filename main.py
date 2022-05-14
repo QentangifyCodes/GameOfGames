@@ -1,5 +1,5 @@
 import pygame
-from Player import Player
+from Player import player
 from data import WALK_CYCLE, IDLE_CYCLE
 from tilemap import Tilemap
 
@@ -8,7 +8,7 @@ clock = pygame.time.Clock()
 screen = pygame.display.set_mode((1000, 700))  # Setting Window Size
 pygame.display.set_caption('Placeholder')  # Setting Window Name
 
-p = Player(screen, WALK_CYCLE, IDLE_CYCLE, pygame.Vector2(40, 150))   # Creating player Object
+p = player(screen, WALK_CYCLE, IDLE_CYCLE, pygame.Vector2(40, 150))   # Creating player Object
 tilemap = Tilemap(p)
 
 # Game Loop
