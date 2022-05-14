@@ -1,7 +1,9 @@
 import pygame
 from player import Player
 from Tilemap_Scripts.tilemap import Tilemap
+
 pygame.init()
+pygame.font.init()
 
 screen = pygame.display.set_mode((1000, 700))
 pygame.display.set_caption('GameOfGames')
