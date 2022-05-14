@@ -1,5 +1,5 @@
 import pygame
-from player import Player
+from Player import Player
 
 
 class Tile:
