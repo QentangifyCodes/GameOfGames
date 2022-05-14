@@ -1,4 +1,6 @@
 import pygame
+
+import player
 from Tilemap_Scripts.tile import Tile
 
 
@@ -29,7 +31,6 @@ class Tilemap:
                     cell = Tile(self.screen, pygame.Vector2(x, y), self.cellSize,  pygame.transform.scale(
                         self.tilemapTosprite[word], self.cellSize))
                     self.cells.append(cell)
-                    print(cell)
 
                 x += self.cellSize.y
             x = 0
@@ -38,3 +39,8 @@ class Tilemap:
     def Update(self):
         for cell in self.cells:
             cell.DrawHitBox()
+
+    def CheckCollison(self, player:player.Player):
+        for cell in self.cells:
+            if player.hitbox.colliderect(cell.rect):
+                player.hitbox.centery = cell.rect.topleft[1]-player.hitbox.height/2

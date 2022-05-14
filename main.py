@@ -13,7 +13,9 @@ p1 = Player(screen)
 while running:
     Clock.tick(60)
     screen.fill((23, 23, 23))
+
     TileMap.Update()
+    TileMap.CheckCollison(p1)
     p1.Update()
 
     for event in pygame.event.get():

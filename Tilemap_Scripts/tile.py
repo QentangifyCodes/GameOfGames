@@ -9,10 +9,11 @@ class Tile:
         self.sprite = sprite
 
         # Hitbox
+        self.rect = pygame.Rect(self.position.x, self.position.y, self.size.x, self.size.y)
         self.hitBoxColor = (100,100,100)
 
     def DrawHitBox(self):
-        pygame.draw.rect(self.screen, self.hitBoxColor, (self.position.x, self.position.y, self.size.x, self.size.y))
+        pygame.draw.rect(self.screen, self.hitBoxColor, self.rect)
 
     def Update(self):
         self.DrawHitBox()
