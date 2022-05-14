@@ -6,16 +6,16 @@ pygame.init()
 screen = pygame.display.set_mode((1000, 700))
 pygame.display.set_caption('GameOfGames')
 Clock = pygame.time.Clock()
-TileMap = Tilemap(screen)
 
 running = True
 p1 = Player(screen)
+
+TileMap = Tilemap(screen, p1)
 while running:
     Clock.tick(60)
     screen.fill((23, 23, 23))
 
     TileMap.Update()
-    TileMap.CheckCollison(p1)
     p1.Update()
 
     for event in pygame.event.get():
