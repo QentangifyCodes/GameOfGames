@@ -28,7 +28,9 @@ class Tile:
             if self.player.hitbox.y < self.rect.topleft[1]:
                 self.player.hitbox.bottom = self.rect.top
                 self.player.isJumping = False
+                self.player.velocity.y = 0
             if self.player.hitbox.y > self.rect.topleft[1]:
                 self.player.hitbox.top = self.rect.bottom
                 self.player.hitbox.y += 1
+                self.player.velocity.y = -7
 

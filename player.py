@@ -8,8 +8,8 @@ class Player:
         self.velocity = pygame.Vector2(0, 0)
 
         # SENSITIVE VALUES, DO NOT EDIT
-        self.gravity = -7
-        self.JumpPower = 0.6
+        self.gravity = -10
+        self.JumpPower = 0.8
         self.Hangtime = -5
         self.JumpCount = self.Hangtime * -1
         self.HangSpeed = 0.05

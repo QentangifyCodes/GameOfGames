@@ -26,6 +26,7 @@ class Tilemap:
             for word in line:
                 word = word.strip()
                 if word == "0" or word == "\n" or word=="":
+                    x += self.cellSize.y
                     continue
                 else:
                     cell = Tile(self.screen, pygame.Vector2(x, y), self.cellSize,  pygame.transform.scale(
@@ -33,8 +34,8 @@ class Tilemap:
                     self.cells.append(cell)
 
                 x += self.cellSize.y
-            x = 0
             y += self.cellSize.x
+            x = 0
 
     def Update(self):
         for cell in self.cells:
