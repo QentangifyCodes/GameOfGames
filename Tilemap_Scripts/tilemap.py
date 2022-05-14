@@ -44,3 +44,4 @@ class Tilemap:
         for cell in self.cells:
             if player.hitbox.colliderect(cell.rect):
                 player.hitbox.centery = cell.rect.topleft[1]-player.hitbox.height/2
+                player.isJumping = False
