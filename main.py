@@ -10,9 +10,9 @@ pygame.display.set_caption('GameOfGames')
 Clock = pygame.time.Clock()
 
 running = True
-p1 = Player(screen)
+TileMap = Tilemap(screen)
+p1 = Player(screen, TileMap)
 
-TileMap = Tilemap(screen, p1)
 while running:
     Clock.tick(60)
     screen.fill((23, 23, 23))
