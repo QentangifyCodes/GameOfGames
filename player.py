@@ -6,7 +6,8 @@ class Player:
         # Screen and Position
         self.screen = screen
         self.position = position
-        self.speed = 1
+        self.speed = 4
+        self.gravity = -4
 
         # Lists of Animation
         self.runCycleRight = runCycle
@@ -35,6 +36,7 @@ class Player:
         self.rect = self.frame.get_rect()  # Don't worry about this
 
     def Update(self):
+        self.position.y -= self.gravity
         self.Draw()  # Drawing the sprite
         self.GetInput()  # Getting player input and moving the sprite
 

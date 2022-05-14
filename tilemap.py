@@ -21,4 +21,4 @@ class Tilemap:
             cell.Update()
 
             if cell.rect.colliderect(self.Player.rect):
-                pass
+                self.Player.position.y = cell.rect.y
