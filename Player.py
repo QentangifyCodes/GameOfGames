@@ -1,13 +1,12 @@
 import pygame
 
 
-class player:
+class Player:
     def __init__(self, screen: pygame.Surface, runCycle: list, idleCycle: list, position: pygame.Vector2):
         # Screen and Position
         self.screen = screen
         self.position = position
         self.speed = 4
-        self.gravity = -4
 
         # Lists of Animation
         self.runCycleRight = runCycle
@@ -30,13 +29,12 @@ class player:
 
         # Animation Things
         self.frameNumber = 0  # The frame number
-        self.frameSpeed = 0.1  # The animation speed
+        self.frameSpeed = 0.01  # The animation speed
         # The current frame in the animation
         self.frame = pygame.transform.scale(self.currentAnimation[0], (200, 200))
         self.rect = self.frame.get_rect()  # Don't worry about this
 
     def Update(self):
-        self.position.y -= self.gravity
         self.Draw()  # Drawing the sprite
         self.GetInput()  # Getting player input and moving the sprite
 
@@ -73,11 +71,11 @@ class player:
 
         # Moving depending on which key is pressed
         if keys[pygame.K_RIGHT]:
-            self.position.x += self.speed
+            self.position.x += .25
             self.direction = 1
             self.running = True
         elif keys[pygame.K_LEFT]:
-            self.position.x -= self.speed
+            self.position.x -= .25
             self.direction = -1
             self.running = True
         else:
