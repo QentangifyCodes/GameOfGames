@@ -7,6 +7,7 @@ class Player:
         self.screen = screen
         self.position = position
         self.speed = 4
+        self.gravity = -10
 
         # Lists of Animation
         self.runCycleRight = runCycle
