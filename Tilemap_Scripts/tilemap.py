@@ -8,7 +8,7 @@ class Tilemap:
         self.cells = []
 
         self.basefont = pygame.font.Font("Tilemap_Scripts/TilemapAssets/MomcakeThin.otf", 40)
-        self.tutorial_text = self.basefont.render("Press WASD or Arrow Keys to Move. Press Space to Jump", True, (201, 196, 177))
+        self.tutorial_text = self.basefont.render("Press WASD or Arrow Keys to Move. Press Space or Z to Jump", True, (201, 196, 177))
         self.tutorial_text_rect = self.tutorial_text.get_rect()
         self.tutorial_text_rect.center = (500,200)
 
