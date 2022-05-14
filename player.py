@@ -6,6 +6,7 @@ class Player:
         # Screen and Position
         self.screen = screen
         self.position = position
+        self.speed = 1
 
         # Lists of Animation
         self.runCycleRight = runCycle
@@ -70,11 +71,11 @@ class Player:
 
         # Moving depending on which key is pressed
         if keys[pygame.K_RIGHT]:
-            self.position.x += .25
+            self.position.x += self.speed
             self.direction = 1
             self.running = True
         elif keys[pygame.K_LEFT]:
-            self.position.x -= .25
+            self.position.x -= self.speed
             self.direction = -1
             self.running = True
         else:
