@@ -29,7 +29,7 @@ class Player:
 
         # Animation Things
         self.frameNumber = 0  # The frame number
-        self.frameSpeed = 0.01  # The animation speed
+        self.frameSpeed = 0.1  # The animation speed
         # The current frame in the animation
         self.frame = pygame.transform.scale(self.currentAnimation[0], (200, 200))
         self.rect = self.frame.get_rect()  # Don't worry about this

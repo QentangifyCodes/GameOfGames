@@ -19,3 +19,6 @@ class Tilemap:
     def Update(self):
         for cell in self.Cells:
             cell.Update()
+
+            if cell.rect.colliderect(self.Player.rect):
+                pass
