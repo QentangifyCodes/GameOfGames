@@ -110,7 +110,7 @@ class Player:
     def Update(self):
         self.GetPlayerInput()
         self.DrawHitBox()
-        self.CheckDash()
+        #self.CheckDash()
 
         # JUMPING IF SPACE PRESSED AND RESETTING JUMP COUNT IF NOT
         if self.isJumping:
