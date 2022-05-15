@@ -10,7 +10,7 @@ class Player:
 
         # SENSITIVE VALUES, DO NOT EDIT
         self.gravity = -13
-        self.JumpPower = 0.3
+        self.JumpPower = 0.2
         self.Hangtime = -13
         self.JumpCount = self.Hangtime * -1
         self.HangSpeed = 1
@@ -107,7 +107,7 @@ class Player:
     def Jump(self):
         self.isJumping = True
         if self.JumpCount >= self.Hangtime:
-            neg = .5
+            neg = 1
             if self.JumpCount < 0:
                 neg = -1
 
