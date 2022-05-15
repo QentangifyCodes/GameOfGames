@@ -1,4 +1,5 @@
 import pygame
+from pygame import key
 
 
 class Player:
@@ -26,6 +27,7 @@ class Player:
         self.rightKeys = [pygame.K_RIGHT, pygame.K_d]
         self.leftKeys = [pygame.K_LEFT, pygame.K_a]
         self.jumpKeys = [pygame.K_SPACE, pygame.K_z]
+        self.dashKeys = [pygame.K_c]
 
         self.health = 100
 
@@ -122,3 +124,12 @@ class Player:
             self.JumpCount -= self.HangSpeed
         else:
             self.isJumping = False
+    def Dash(self):
+        keys = pygame.key.get_pressed()
+        dashkey = self.dashKeys
+        # MOVING IF ANY LEFT MOcVING KEYS OR RIGHT MOVING KEYS ARE PRESSED
+        for key in dashkey:
+            if key in self.dashKeys and keys[key]:
+                self.x +=3
+
+
