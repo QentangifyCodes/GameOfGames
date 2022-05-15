@@ -105,7 +105,7 @@ class Player:
     def Jump(self):
         self.isJumping = True
         if self.JumpCount >= self.Hangtime:
-            neg = 1
+            neg =.5
             if self.JumpCount < 0:
                 neg = -1
 
