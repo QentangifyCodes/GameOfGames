@@ -10,7 +10,7 @@ class Player:
 
         # SENSITIVE VALUES, DO NOT EDIT
         self.gravity = -13
-        self.JumpPower = 0.2
+        self.JumpPower = 0.3
         self.Hangtime = -13
         self.JumpCount = self.Hangtime * -1
         self.HangSpeed = 1
@@ -60,10 +60,13 @@ class Player:
         if len(self.GetCollided()) > 0:
             hit = self.GetCollided()[0]
 
-            if hit.rect.x < self.hitbox.x:
-                self.hitbox.left = hit.rect.right
-            else:
-                self.hitbox.right = hit.rect.left
+            hit.DrawHitBox()
+
+            if hit.rect.bottom <= self.hitbox.bottom:
+                if self.velocity.x < 0:
+                    self.hitbox.left = hit.rect.right
+                elif self.velocity.x > 0:
+                    self.hitbox.right = hit.rect.left
 
         # JUMPING
         for key in self.jumpKeys:
@@ -75,9 +78,14 @@ class Player:
         if not self.isJumping:
             self.hitbox.y -= self.gravity
 
+        hits = self.GetCollided()
+
+        if len(hits) == 0:
+            self.Grounded = False
+
         if len(self.GetCollided()) > 0:
             hit = self.GetCollided()[0]
-
+            hit.DrawHitBox()
             if hit.rect.y < self.hitbox.y:
                 self.hitbox.top = hit.rect.bottom
                 self.isJumping = False
@@ -85,8 +93,6 @@ class Player:
                 self.hitbox.bottom = hit.rect.top
                 self.isJumping = False
                 self.Grounded = True
-        else:
-            self.Grounded = False
 
     def Update(self):
         self.GetPlayerInput()
@@ -101,7 +107,7 @@ class Player:
     def Jump(self):
         self.isJumping = True
         if self.JumpCount >= self.Hangtime:
-            neg =.5
+            neg = .5
             if self.JumpCount < 0:
                 neg = -1
 
