@@ -16,12 +16,16 @@ class Creature:
         self.isAlive = True
         self.health = health
 
+    def SetAnimation(self, str):
+        self.CurrentAnimation = self.Animations[str]
+
     def Animate(self):
         self.framenumber += self.CurrentAnimation["Speed"]
 
-        if self.framenumber > len(self.CurrentAnimation["Animation"]):
+        if self.framenumber >= len(self.CurrentAnimation["Animation"])-1:
             self.framenumber = 0
 
+        print(self.CurrentAnimation)
         self.frame = self.CurrentAnimation["Animation"][int(self.framenumber)]
 
     def Draw(self):

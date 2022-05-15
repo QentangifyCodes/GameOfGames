@@ -27,8 +27,14 @@ class Player:
         self.leftKeys = [pygame.K_LEFT, pygame.K_a]
         self.jumpKeys = [pygame.K_SPACE, pygame.K_z]
 
+        self.health = 100
+
     def DrawHitBox(self):
         pygame.draw.rect(self.screen, self.hitBoxColor, self.hitbox)
+
+        basefont = pygame.font.Font("res/Tilemap_Scripts/TilemapAssets/MomcakeThin.otf", 20)
+        tutorial_text = basefont.render(f"Player Health: {self.health}", True, (201, 196, 177))
+        self.screen.blit(tutorial_text, (10,10))
 
     def GetCollided(self):
         hits = []
@@ -57,6 +63,7 @@ class Player:
                 self.velocity.x = 0
         self.hitbox.x += self.velocity.x
 
+        # Horizontal Collision
         if len(self.GetCollided()) > 0:
             hit = self.GetCollided()[0]
 
@@ -78,8 +85,8 @@ class Player:
         if not self.isJumping:
             self.hitbox.y -= self.gravity
 
+        # Vertical Collision
         hits = self.GetCollided()
-
         if len(hits) == 0:
             self.Grounded = False
 

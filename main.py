@@ -13,7 +13,7 @@ Clock = pygame.time.Clock()
 running = True
 TileMap = Tilemap(screen)
 p1 = Player(screen, TileMap)
-g = Ghost(screen, pygame.Vector2(500, 500), 10, p1)
+g = Ghost(screen, pygame.Vector2(500, 500), p1)
 
 while running:
     Clock.tick(60)
