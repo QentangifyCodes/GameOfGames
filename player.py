@@ -106,7 +106,7 @@ class Player:
     def Update(self):
         self.GetPlayerInput()
         self.DrawHitBox()
-
+        self.Dash()
         # JUMPING IF SPACE PRESSED AND RESETTING JUMP COUNT IF NOT
         if self.isJumping:
             self.Jump()
@@ -130,6 +130,7 @@ class Player:
         # MOVING IF ANY LEFT MOcVING KEYS OR RIGHT MOVING KEYS ARE PRESSED
         for key in dashkey:
             if key in self.dashKeys and keys[key]:
-                self.x +=3
+                self.hitbox.x +=20*self.velocity.normalize().x
+
 
 
