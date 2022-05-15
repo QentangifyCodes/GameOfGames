@@ -1,7 +1,6 @@
 import pygame
 
 
-# VERY MESSY. MIGHT HAVE TO CLEAN UP LATER.
 class Player:
     def __init__(self, screen: pygame.Surface, tm):
         self.screen = screen
@@ -60,7 +59,6 @@ class Player:
 
         if len(self.GetCollided()) > 0:
             hit = self.GetCollided()[0]
-            hit.DrawHitBox()
 
             if hit.rect.x < self.hitbox.x:
                 self.hitbox.left = hit.rect.right
@@ -79,8 +77,6 @@ class Player:
 
         if len(self.GetCollided()) > 0:
             hit = self.GetCollided()[0]
-            print(hit.rect.center)
-            hit.DrawHitBox()
 
             if hit.rect.y < self.hitbox.y:
                 self.hitbox.top = hit.rect.bottom
