@@ -109,7 +109,7 @@ class Player:
         if self.JumpCount >= self.Hangtime:
             neg = 1
             if self.JumpCount < 0:
-                neg = -1
+                neg = -.45
 
             self.hitbox.y -= neg * self.JumpPower * (self.JumpCount ** 2)
             self.JumpCount -= self.HangSpeed
