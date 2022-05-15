@@ -25,7 +25,6 @@ class Creature:
         if self.framenumber >= len(self.CurrentAnimation["Animation"])-1:
             self.framenumber = 0
 
-        print(self.CurrentAnimation)
         self.frame = self.CurrentAnimation["Animation"][int(self.framenumber)]
 
     def Draw(self):

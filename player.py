@@ -7,6 +7,8 @@ class Player:
         self.screen = screen
         self.TileMap = tm
         self.speed = 5
+
+        self.DashDir = 0
         self.velocity = pygame.Vector2(0, 0)
 
         # SENSITIVE VALUES, DO NOT EDIT
@@ -36,7 +38,7 @@ class Player:
 
         basefont = pygame.font.Font("res/Tilemap_Scripts/TilemapAssets/MomcakeThin.otf", 20)
         tutorial_text = basefont.render(f"Player Health: {self.health}", True, (201, 196, 177))
-        self.screen.blit(tutorial_text, (10,10))
+        self.screen.blit(tutorial_text, (10, 10))
 
     def GetCollided(self):
         hits = []
@@ -56,8 +58,10 @@ class Player:
         for key in allkeys:
             if key in self.rightKeys and keys[key]:
                 self.velocity.x = self.speed
+                self.DashDir = 1
             elif key in self.leftKeys and keys[key]:
                 self.velocity.x = -self.speed
+                self.DashDir = -1
             else:
                 notpressed += 1
 
@@ -106,7 +110,8 @@ class Player:
     def Update(self):
         self.GetPlayerInput()
         self.DrawHitBox()
-        self.Dash()
+        self.CheckDash()
+
         # JUMPING IF SPACE PRESSED AND RESETTING JUMP COUNT IF NOT
         if self.isJumping:
             self.Jump()
@@ -124,13 +129,10 @@ class Player:
             self.JumpCount -= self.HangSpeed
         else:
             self.isJumping = False
-    def Dash(self):
+
+    def CheckDash(self):
         keys = pygame.key.get_pressed()
-        dashkey = self.dashKeys
-        # MOVING IF ANY LEFT MOcVING KEYS OR RIGHT MOVING KEYS ARE PRESSED
-        for key in dashkey:
+
+        for key in self.dashKeys:
             if key in self.dashKeys and keys[key]:
-                self.hitbox.x +=20*self.velocity.normalize().x
-
-
-
+                self.hitbox.x += 10 * self.DashDir
