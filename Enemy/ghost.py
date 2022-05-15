@@ -9,8 +9,9 @@ class Ghost(Creature):
         self.player = player
 
         # Following Player
-        self.speed = 2
-        self.maxFollow = 50
+        self.speed = 3
+        self.maxFollow = 150
+        self.AttackDistance = 300
         self.distanceFromPlayer = 0
 
         # Damage
@@ -74,7 +75,8 @@ class Ghost(Creature):
 
             self.rect.x += dir.x * self.speed
             self.rect.y += dir.y * self.speed
-        else:
+
+        if self.distanceFromPlayer.length() < self.AttackDistance:
             self.Attack(dir)
 
     def Attack(self, dir):
