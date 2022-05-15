@@ -1,5 +1,5 @@
 import pygame
-from Tilemap_Scripts.tile import Tile
+from res.Tilemap_Scripts.tile import Tile
 
 class Tilemap:
     def __init__(self, screen: pygame.Surface):
@@ -7,21 +7,21 @@ class Tilemap:
         self.cellSize = pygame.Vector2(50, 50)
         self.cells = []
 
-        self.basefont = pygame.font.Font("Tilemap_Scripts/TilemapAssets/MomcakeThin.otf", 40)
+        self.basefont = pygame.font.Font("res/Tilemap_Scripts/TilemapAssets/MomcakeThin.otf", 40)
         self.tutorial_text = self.basefont.render("Press WASD or Arrow Keys to Move. Press Space or Z to Jump", True, (201, 196, 177))
         self.tutorial_text_rect = self.tutorial_text.get_rect()
         self.tutorial_text_rect.center = (500,200)
 
 
         self.tilemapTosprite = {
-            "1": pygame.image.load("Tilemap_Scripts/TilemapAssets/Dirt.png"),
-            "2": pygame.image.load("Tilemap_Scripts/TilemapAssets/Grass.png")
+            "1": pygame.image.load("res/Tilemap_Scripts/TilemapAssets/Dirt.png"),
+            "2": pygame.image.load("res/Tilemap_Scripts/TilemapAssets/Grass.png")
         }
 
         self.Read()
 
     def Read(self):
-        with open("Tilemap_Scripts/tilemap.txt", "r") as f:
+        with open("res/Tilemap_Scripts/tilemap.txt", "r") as f:
             lines = f.readlines()
 
         x, y = 0, 0

@@ -1,6 +1,7 @@
 import pygame
 from player import Player
-from Tilemap_Scripts.tilemap import Tilemap
+from res.Tilemap_Scripts.tilemap import Tilemap
+from Enemy.ghost import Ghost
 
 pygame.init()
 pygame.font.init()
@@ -10,18 +11,17 @@ pygame.display.set_caption('GameOfGames')
 Clock = pygame.time.Clock()
 
 running = True
-Background = pygame.transform.scale(pygame.image.load("Tilemap_Scripts/TilemapAssets/Background.png"),
-                                    (1000, 760)).convert()
 TileMap = Tilemap(screen)
 p1 = Player(screen, TileMap)
+g = Ghost(screen, pygame.Vector2(500, 500), 10, p1)
 
 while running:
     Clock.tick(60)
     screen.fill((23, 23, 23))
-    #screen.blit(Background, (0,0))
 
     TileMap.Update()
     p1.Update()
+    g.Update()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
