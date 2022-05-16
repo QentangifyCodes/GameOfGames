@@ -1,11 +1,11 @@
 import pygame
-
 import player
 from Enemy.LivingCreature import Creature
 
-
+# Ghost enemy
 class Ghost(Creature):
     def __init__(self, screen: pygame.Surface, position: pygame.Vector2, player: player.Player):
+        # Needed to follow the player
         self.player = player
 
         # Following Player
@@ -24,6 +24,7 @@ class Ghost(Creature):
 
         super().__init__(screen, position, self.CreateAnimation(), health)
 
+    # Sets up animations (broken)
     def CreateAnimation(self):
         IdleLeft = []
         IdleRight = []
@@ -57,6 +58,7 @@ class Ghost(Creature):
 
         return Animations
 
+    # Follows the player
     def TrackPlayer(self):
         playpos = pygame.Vector2(self.player.hitbox.x, self.player.hitbox.y)
         selfpos = pygame.Vector2(self.rect.x, self.rect.y)
@@ -79,6 +81,7 @@ class Ghost(Creature):
         if self.distanceFromPlayer.length() < self.AttackDistance:
             self.Attack(dir)
 
+    # Attacks the player if in range
     def Attack(self, dir):
         if self.CooldownTime <= 0:
             if dir.x < 0:
@@ -91,6 +94,7 @@ class Ghost(Creature):
         else:
             self.CooldownTime -= 0.01
 
+    # Draws the sprite and tracks the player
     def Update(self):
         self.Draw()
         self.TrackPlayer()
