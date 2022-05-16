@@ -33,7 +33,7 @@ class Player:
         self.leftKeys = [pygame.K_LEFT, pygame.K_a]
         self.jumpKeys = [pygame.K_SPACE, pygame.K_z]
         self.dashKeys = [pygame.K_c]
-
+        self.reset = [pygame.K_r]
         self.health = 100
 
     # For debugging. basically draws the player's hitbox and shows their health
@@ -119,11 +119,13 @@ class Player:
         self.GetPlayerInput()
         self.DrawHitBox()
         self.checkDash()
+        self.back()
         if self.dashing:
             self.dashdown -=0.1
         if self.dashdown <= 0:
             self.dashing=False
             self.dashdown = 2
+
         # JUMPING IF SPACE PRESSED AND RESETTING JUMP COUNT IF NOT
         if self.isJumping:
             self.Jump()
@@ -153,6 +155,12 @@ class Player:
                 self.hitbox.x += 150 * self.DashDir
                 self.gravity=-13
                 self.dashing = True
+    def back(self):
+        keys = pygame.key.get_pressed()
+
+        for key in self.reset:
+            if keys[key]:
+                self.hitbox.topleft=(50,350)
 
 
 
