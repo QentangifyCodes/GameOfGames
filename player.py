@@ -1,17 +1,18 @@
 import pygame
-from pygame import key
 
-
+# Player object class
 class Player:
     def __init__(self, screen: pygame.Surface, tm):
+        # Screen and tilemap objects. Needed for collision and drawing
         self.screen = screen
         self.TileMap = tm
         self.speed = 5
-
-        self.DashDir = 0
         self.velocity = pygame.Vector2(0, 0)
 
-        # SENSITIVE VALUES, DO NOT EDIT
+        # Dashing
+        self.DashDir = 0
+
+        # SENSITIVE VALUES, DO NOT EDIT. Jumping values
         self.gravity = -13
         self.JumpPower = 0.2
         self.Hangtime = -13
@@ -33,6 +34,7 @@ class Player:
 
         self.health = 100
 
+    # For debugging. basically draws the player's hitbox and shows their health
     def DrawHitBox(self):
         pygame.draw.rect(self.screen, self.hitBoxColor, self.hitbox)
 
@@ -40,6 +42,7 @@ class Player:
         tutorial_text = basefont.render(f"Player Health: {self.health}", True, (201, 196, 177))
         self.screen.blit(tutorial_text, (10, 10))
 
+    # Returns everything the player has collided with
     def GetCollided(self):
         hits = []
 
@@ -49,6 +52,7 @@ class Player:
 
         return hits
 
+    # Very messy. DO NOT touch this, it'll probably break. Get's payer input and checks for collision.
     def GetPlayerInput(self):
         keys = pygame.key.get_pressed()
         allkeys = self.rightKeys + self.leftKeys
@@ -107,10 +111,11 @@ class Player:
                 self.isJumping = False
                 self.Grounded = True
 
+    # Updating the player. Drawing the player, getting input, jumping, etc.
     def Update(self):
         self.GetPlayerInput()
         self.DrawHitBox()
-        self.CheckDash()
+        # self.CheckDash()
 
         # JUMPING IF SPACE PRESSED AND RESETTING JUMP COUNT IF NOT
         if self.isJumping:
@@ -118,6 +123,7 @@ class Player:
         else:
             self.JumpCount = self.Hangtime * -1
 
+    # Jumping with Math (epic)
     def Jump(self):
         self.isJumping = True
         if self.JumpCount >= self.Hangtime:
@@ -130,6 +136,7 @@ class Player:
         else:
             self.isJumping = False
 
+    # Dashing (broken)
     def CheckDash(self):
         keys = pygame.key.get_pressed()
 

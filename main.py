@@ -6,9 +6,10 @@ from Enemy.ghost import Ghost
 pygame.init()
 pygame.font.init()
 
+# Window things
 screen = pygame.display.set_mode((1000, 700))
 pygame.display.set_caption('GameOfGames')
-Clock = pygame.time.Clock()
+Clock = pygame.time.Clock()  # Setting max frame rate to 60 fps
 
 running = True
 TileMap = Tilemap(screen)
