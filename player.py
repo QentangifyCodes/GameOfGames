@@ -1,5 +1,6 @@
 import pygame
 
+
 # Player object class
 class Player:
     def __init__(self, screen: pygame.Surface, tm):
@@ -12,7 +13,9 @@ class Player:
         # Dashing
         self.DashDir = 0
         self.dashing = False
-        self.dashdown = 2 #dashing cool down
+        self.dashdown = 1
+        self.dashDistance = 5  # IN BLOCKS. ONE BLOCK IS 50 PIXELS
+
         # SENSITIVE VALUES, DO NOT EDIT. Jumping values
         self.gravity = -13
         self.JumpPower = 0.2
@@ -21,7 +24,7 @@ class Player:
         self.HangSpeed = 1
         self.isJumping = False
         self.Grounded = False
-        self.oldGravity=self.gravity
+        self.oldGravity = self.gravity
 
         # Hitbox
         self.hitBoxSize = pygame.Vector2(50, 100)
@@ -33,7 +36,7 @@ class Player:
         self.leftKeys = [pygame.K_LEFT, pygame.K_a]
         self.jumpKeys = [pygame.K_SPACE, pygame.K_z]
         self.dashKeys = [pygame.K_c]
-        self.reset = [pygame.K_r]
+
         self.health = 100
 
     # For debugging. basically draws the player's hitbox and shows their health
@@ -42,9 +45,13 @@ class Player:
 
         basefont = pygame.font.Font("res/Tilemap_Scripts/TilemapAssets/MomcakeThin.otf", 20)
         playerHealth = basefont.render(f"Player Health: {self.health}", True, (201, 196, 177))
-        dashCoolDown = basefont.render(f"Dash Cool Down: {self.dashdown}", True, (201, 196, 177))
-        self.screen.blit(playerHealth, (10, 10))
-        self.screen.blit(dashCoolDown, (10, 40))
+        playerPosition = basefont.render(f"Dash Cool Down: {int(self.dashdown * 100)}", True, (201, 196, 177))
+        dashCoolDown = basefont.render(f"Player Position: ({self.hitbox.x}, {self.hitbox.y})", True, (201, 196, 177))
+
+        self.screen.blit(playerPosition, (10, 10))
+        self.screen.blit(playerHealth, (10, 40))
+        self.screen.blit(dashCoolDown, (10, 70))
+
     # Returns everything the player has collided with
     def GetCollided(self):
         hits = []
@@ -58,6 +65,19 @@ class Player:
     # Very messy. DO NOT touch this, it'll probably break. Get's payer input and checks for collision.
     def GetPlayerInput(self):
         keys = pygame.key.get_pressed()
+
+        self.HandeHorizontalMovement(keys)
+        self.HandleVerticalMovement(keys)
+        self.HandleDash(keys)
+
+        # JUMPING IF SPACE PRESSED AND RESETTING JUMP COUNT IF NOT
+        if self.isJumping:
+            self.Jump()
+        else:
+            self.JumpCount = self.Hangtime * -1
+
+    # Moving Horizontally and using collision
+    def HandeHorizontalMovement(self, keys):
         allkeys = self.rightKeys + self.leftKeys
 
         # MOVING IF ANY LEFT MOVING KEYS OR RIGHT MOVING KEYS ARE PRESSED
@@ -76,7 +96,11 @@ class Player:
                 self.velocity.x = 0
         self.hitbox.x += self.velocity.x
 
-        # Horizontal Collision
+        if self.hitbox.left < 0:
+            self.hitbox.left = 0
+        if self.hitbox.right > 1000:
+            self.hitbox.right = 1000
+
         if len(self.GetCollided()) > 0:
             hit = self.GetCollided()[0]
 
@@ -88,6 +112,8 @@ class Player:
                 elif self.velocity.x > 0:
                     self.hitbox.right = hit.rect.left
 
+    # Moving Vertically and using collision
+    def HandleVerticalMovement(self, keys):
         # JUMPING
         for key in self.jumpKeys:
             if keys[key] and not self.isJumping and self.Grounded:
@@ -114,24 +140,6 @@ class Player:
                 self.isJumping = False
                 self.Grounded = True
 
-    # Updating the player. Drawing the player, getting input, jumping, etc.
-    def Update(self):
-        self.GetPlayerInput()
-        self.DrawHitBox()
-        self.checkDash()
-        self.back()
-        if self.dashing:
-            self.dashdown -=0.1
-        if self.dashdown <= 0:
-            self.dashing=False
-            self.dashdown = 2
-
-        # JUMPING IF SPACE PRESSED AND RESETTING JUMP COUNT IF NOT
-        if self.isJumping:
-            self.Jump()
-        else:
-            self.JumpCount = self.Hangtime * -1
-
     # Jumping with Math (epic)
     def Jump(self):
         self.isJumping = True
@@ -145,22 +153,48 @@ class Player:
         else:
             self.isJumping = False
 
-    # Dashing (broken)
-    def checkDash(self):
-        keys = pygame.key.get_pressed()
-
+    def HandleDash(self, keys):
         for key in self.dashKeys:
             if keys[key] and not self.dashing:
-                self.gravity=0
-                self.hitbox.x += 150 * self.DashDir
-                self.gravity=-13
+                x = round(self.hitbox.x/self.TileMap.cellSize.x)*self.TileMap.cellSize.x
+                i = x
+                shudmove = True
+
+                # SOWWY IT MESSY DONT WANT FIX SOWWY
+                if self.DashDir < 0:
+                    while x > i - (self.dashDistance * self.TileMap.cellSize.x):
+                        cell = self.TileMap.GetTileAt((x, self.hitbox.bottom))
+
+                        if cell is None:
+                            x -= self.TileMap.cellSize.x
+                            x = int(x)
+                        else:
+                            self.hitbox.left = cell.rect.right
+                            shudmove = False
+                            break
+                elif self.DashDir > 0:
+                    while x < i + (self.dashDistance * self.TileMap.cellSize.x):
+                        cell = self.TileMap.GetTileAt((x, self.hitbox.bottom))
+
+                        if cell is None:
+                            x += self.TileMap.cellSize.x
+                            x = int(x)
+                        else:
+                            self.hitbox.right = cell.rect.left
+                            shudmove = False
+                            break
+
+                if shudmove:
+                    self.hitbox.x = x
                 self.dashing = True
-    def back(self):
-        keys = pygame.key.get_pressed()
 
-        for key in self.reset:
-            if keys[key]:
-                self.hitbox.topleft=(50,350)
+    # Updating the player. Drawing the player, getting input, jumping, etc.
+    def Update(self):
+        self.GetPlayerInput()
+        self.DrawHitBox()
 
-
-
+        if self.dashing:
+            self.dashdown -= 0.05
+        if self.dashdown <= 0:
+            self.dashing = False
+            self.dashdown = 1

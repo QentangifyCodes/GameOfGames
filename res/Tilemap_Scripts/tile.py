@@ -21,5 +21,3 @@ class Tile:
 
     def Update(self):
         self.Draw()
-
-

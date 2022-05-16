@@ -1,6 +1,7 @@
 import pygame
 from res.Tilemap_Scripts.tile import Tile
 
+
 class Tilemap:
     def __init__(self, screen: pygame.Surface):
         self.screen = screen
@@ -8,10 +9,10 @@ class Tilemap:
         self.cells = []
 
         self.basefont = pygame.font.Font("res/Tilemap_Scripts/TilemapAssets/MomcakeThin.otf", 40)
-        self.tutorial_text = self.basefont.render("Press WASD or Arrow Keys to Move. Press Space or Z to Jump", True, (201, 196, 177))
+        self.tutorial_text = self.basefont.render("Press WASD or Arrow Keys to Move. Press Space or Z to Jump", True,
+                                                  (201, 196, 177))
         self.tutorial_text_rect = self.tutorial_text.get_rect()
-        self.tutorial_text_rect.center = (500,200)
-
+        self.tutorial_text_rect.center = (500, 200)
 
         self.tilemapTosprite = {
             "1": pygame.image.load("res/Tilemap_Scripts/TilemapAssets/Dirt.png"),
@@ -28,11 +29,11 @@ class Tilemap:
         for line in lines:
             for word in line:
                 word = word.strip()
-                if word == "0" or word == "\n" or word=="":
+                if word == "0" or word == "\n" or word == "":
                     x += self.cellSize.y
                     continue
                 else:
-                    cell = Tile(self.screen, pygame.Vector2(x, y), self.cellSize,  pygame.transform.scale(
+                    cell = Tile(self.screen, pygame.Vector2(x, y), self.cellSize, pygame.transform.scale(
                         self.tilemapTosprite[word], self.cellSize))
                     self.cells.append(cell)
 
@@ -40,8 +41,12 @@ class Tilemap:
             y += self.cellSize.x
             x = 0
 
+    def GetTileAt(self, pos: tuple):
+        for cell in self.cells:
+            if cell.rect.left == pos[0] and cell.rect.bottom == pos[1]:
+                return cell
+
     def Update(self):
         self.screen.blit(self.tutorial_text, self.tutorial_text_rect)
         for cell in self.cells:
             cell.Update()
-
