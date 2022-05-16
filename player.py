@@ -141,7 +141,7 @@ class Player:
 
         for key in self.dashKeys:
             if keys[key] and not self.dashing:
-                self.hitbox.x += 10 * self.DashDir
+                self.hitbox.x += 150 * self.DashDir
                 self.dashing = True
 
 
