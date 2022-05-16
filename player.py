@@ -12,6 +12,7 @@ class Player:
         # Dashing
         self.DashDir = 0
         self.dashing = False
+        self.dashdown = 2 #dashing cool down
         # SENSITIVE VALUES, DO NOT EDIT. Jumping values
         self.gravity = -13
         self.JumpPower = 0.2
@@ -20,6 +21,7 @@ class Player:
         self.HangSpeed = 1
         self.isJumping = False
         self.Grounded = False
+        self.oldGravity=self.gravity
 
         # Hitbox
         self.hitBoxSize = pygame.Vector2(50, 100)
@@ -39,9 +41,10 @@ class Player:
         pygame.draw.rect(self.screen, self.hitBoxColor, self.hitbox)
 
         basefont = pygame.font.Font("res/Tilemap_Scripts/TilemapAssets/MomcakeThin.otf", 20)
-        tutorial_text = basefont.render(f"Player Health: {self.health}", True, (201, 196, 177))
-        self.screen.blit(tutorial_text, (10, 10))
-
+        playerHealth = basefont.render(f"Player Health: {self.health}", True, (201, 196, 177))
+        dashCoolDown = basefont.render(f"Dash Cool Down: {self.dashdown}", True, (201, 196, 177))
+        self.screen.blit(playerHealth, (10, 10))
+        self.screen.blit(dashCoolDown, (10, 40))
     # Returns everything the player has collided with
     def GetCollided(self):
         hits = []
@@ -116,6 +119,11 @@ class Player:
         self.GetPlayerInput()
         self.DrawHitBox()
         self.checkDash()
+        if self.dashing:
+            self.dashdown -=0.1
+        if self.dashdown <= 0:
+            self.dashing=False
+            self.dashdown = 2
         # JUMPING IF SPACE PRESSED AND RESETTING JUMP COUNT IF NOT
         if self.isJumping:
             self.Jump()
@@ -141,7 +149,10 @@ class Player:
 
         for key in self.dashKeys:
             if keys[key] and not self.dashing:
+                self.gravity=0
                 self.hitbox.x += 150 * self.DashDir
+                self.gravity=-13
                 self.dashing = True
+
 
 
