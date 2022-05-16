@@ -11,7 +11,7 @@ class Player:
 
         # Dashing
         self.DashDir = 0
-
+        self.dashing = False
         # SENSITIVE VALUES, DO NOT EDIT. Jumping values
         self.gravity = -13
         self.JumpPower = 0.2
@@ -115,8 +115,7 @@ class Player:
     def Update(self):
         self.GetPlayerInput()
         self.DrawHitBox()
-        # self.CheckDash()
-
+        self.checkDash()
         # JUMPING IF SPACE PRESSED AND RESETTING JUMP COUNT IF NOT
         if self.isJumping:
             self.Jump()
@@ -137,9 +136,12 @@ class Player:
             self.isJumping = False
 
     # Dashing (broken)
-    def CheckDash(self):
+    def checkDash(self):
         keys = pygame.key.get_pressed()
 
         for key in self.dashKeys:
-            if key in self.dashKeys and keys[key]:
+            if keys[key] and not self.dashing:
                 self.hitbox.x += 10 * self.DashDir
+                self.dashing = True
+
+
