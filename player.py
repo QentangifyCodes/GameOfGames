@@ -173,11 +173,15 @@ class Player:
                     self.canMove = False
                     rect.x += 1
                     for cell in self.TileMap.cells:
-                        if rect.colliderect(cell) and cell.rect.bottom == rect.bottom:
+                        if self.Grounded and not cell.rect.bottom == rect.bottom:
+                            continue
+
+                        if rect.colliderect(cell.rect):
                             self.hitbox.right = cell.rect.left
                             self.dashing = True
                             self.canMove = True
                             return
+
                 self.canMove = True
                 self.hitbox = rect
                 self.dashing = True
@@ -188,7 +192,10 @@ class Player:
                 while rect.x > x - self.dashDistance:
                     rect.x -= 1
                     for cell in self.TileMap.cells:
-                        if rect.colliderect(cell) and cell.rect.bottom == rect.bottom:
+                        if self.Grounded and not cell.rect.bottom == rect.bottom:
+                            continue
+
+                        if rect.colliderect(cell.rect):
                             self.hitbox.left = cell.rect.right
                             self.dashing = True
                             self.canMove = True

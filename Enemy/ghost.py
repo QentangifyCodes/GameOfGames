@@ -35,13 +35,6 @@ class Ghost(Creature):
             IdleLeft.append(
                 pygame.transform.scale(pygame.image.load(f"res/Enemy_Sprites/Ghost/Idle/sprite_{x}.png"), (57, 105)))
 
-        for x in range(5):
-            AttackLeft.append(
-                pygame.transform.scale(pygame.image.load(f"res/Enemy_Sprites/Ghost/Attack/sprite_{x}.png"), (57, 105)))
-
-        for attack in AttackLeft:
-            AttackRight.append(pygame.transform.flip(attack, True, False))
-
         for idle in IdleLeft:
             IdleRight.append(pygame.transform.flip(idle, True, False))
 
@@ -50,10 +43,6 @@ class Ghost(Creature):
                 {"Speed": 0.1, "Animation": IdleLeft},
             "IdleRight":
                 {"Speed": 0.1, "Animation": IdleRight},
-            "AttackLeft":
-                {"Speed": 0.1, "Animation": AttackLeft},
-            "AttackRight":
-                {"Speed": 0.1, "Animation": AttackRight}
         }
 
         return Animations
@@ -79,19 +68,16 @@ class Ghost(Creature):
             self.rect.y += dir.y * self.speed
 
         if self.distanceFromPlayer.length() < self.AttackDistance:
-            self.Attack(dir)
+            self.Attack()
 
     # Attacks the player if in range
-    def Attack(self, dir):
+    def Attack(self):
         if self.CooldownTime <= 0:
-            if dir.x < 0:
-                self.SetAnimation("AttackLeft")
-            else:
-                self.SetAnimation("AttackRight")
-
             self.player.health -= self.Damage
+            self.player.hitBoxColor = (0,0,0)
             self.CooldownTime = self.TimeBetweenAttack
         else:
+            self.player.hitBoxColor = (255,0,0)
             self.CooldownTime -= 0.01
 
     # Draws the sprite and tracks the player
