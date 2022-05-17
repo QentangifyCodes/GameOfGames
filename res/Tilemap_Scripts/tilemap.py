@@ -34,17 +34,13 @@ class Tilemap:
                     continue
                 else:
                     cell = Tile(self.screen, pygame.Vector2(x, y), self.cellSize, pygame.transform.scale(
-                        self.tilemapTosprite[word], self.cellSize))
+                        self.tilemapTosprite[word], self.cellSize), word)
                     self.cells.append(cell)
 
                 x += self.cellSize.y
             y += self.cellSize.x
             x = 0
 
-    def GetTileAt(self, pos: tuple):
-        for cell in self.cells:
-            if cell.rect.left == pos[0] and cell.rect.bottom == pos[1]:
-                return cell
 
     def Update(self):
         self.screen.blit(self.tutorial_text, self.tutorial_text_rect)

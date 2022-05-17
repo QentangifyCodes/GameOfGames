@@ -13,8 +13,9 @@ class Player:
         # Dashing
         self.DashDir = 0
         self.dashing = False
-        self.dashdown = 1
-        self.dashDistance = 5  # IN BLOCKS. ONE BLOCK IS 50 PIXELS
+        self.dashTime = 5
+        self.dashdown = self.dashTime
+        self.dashDistance = 300
 
         # SENSITIVE VALUES, DO NOT EDIT. Jumping values
         self.gravity = -13
@@ -24,6 +25,7 @@ class Player:
         self.HangSpeed = 1
         self.isJumping = False
         self.Grounded = False
+        self.canMove = True
         self.oldGravity = self.gravity
 
         # Hitbox
@@ -35,7 +37,8 @@ class Player:
         self.rightKeys = [pygame.K_RIGHT, pygame.K_d]
         self.leftKeys = [pygame.K_LEFT, pygame.K_a]
         self.jumpKeys = [pygame.K_SPACE, pygame.K_z]
-        self.dashKeys = [pygame.K_c]
+        self.dashRightKeys = [pygame.K_c]
+        self.dashLeftKeys = [pygame.K_x, pygame.K_q]
 
         self.health = 100
 
@@ -82,15 +85,14 @@ class Player:
 
         # MOVING IF ANY LEFT MOVING KEYS OR RIGHT MOVING KEYS ARE PRESSED
         notpressed = 0
-        for key in allkeys:
-            if key in self.rightKeys and keys[key]:
-                self.velocity.x = self.speed
-                self.DashDir = 1
-            elif key in self.leftKeys and keys[key]:
-                self.velocity.x = -self.speed
-                self.DashDir = -1
-            else:
-                notpressed += 1
+        if self.canMove:
+            for key in allkeys:
+                if key in self.rightKeys and keys[key]:
+                    self.velocity.x = self.speed
+                elif key in self.leftKeys and keys[key]:
+                    self.velocity.x = -self.speed
+                else:
+                    notpressed += 1
 
             if notpressed > len(allkeys) - 1:
                 self.velocity.x = 0
@@ -115,9 +117,10 @@ class Player:
     # Moving Vertically and using collision
     def HandleVerticalMovement(self, keys):
         # JUMPING
-        for key in self.jumpKeys:
-            if keys[key] and not self.isJumping and self.Grounded:
-                self.Jump()
+        if self.canMove:
+            for key in self.jumpKeys:
+                if keys[key] and not self.isJumping and self.Grounded:
+                    self.Jump()
 
         self.hitbox.y -= self.velocity.y
 
@@ -132,6 +135,7 @@ class Player:
         if len(self.GetCollided()) > 0:
             hit = self.GetCollided()[0]
             hit.DrawHitBox()
+
             if hit.rect.y < self.hitbox.y:
                 self.hitbox.top = hit.rect.bottom
                 self.isJumping = False
@@ -154,38 +158,44 @@ class Player:
             self.isJumping = False
 
     def HandleDash(self, keys):
-        for key in self.dashKeys:
+        if self.dashing:
+            self.dashdown -= 0.05
+        if self.dashdown <= 0:
+            self.dashing = False
+            self.dashdown = self.dashTime
+
+        rect = self.hitbox
+        x = rect.x
+
+        for key in self.dashRightKeys:
             if keys[key] and not self.dashing:
-                x = round(self.hitbox.x/self.TileMap.cellSize.x)*self.TileMap.cellSize.x
-                i = x
-                shudmove = True
-
-                # SOWWY IT MESSY DONT WANT FIX SOWWY
-                if self.DashDir < 0:
-                    while x > i - (self.dashDistance * self.TileMap.cellSize.x):
-                        cell = self.TileMap.GetTileAt((x, self.hitbox.bottom))
-
-                        if cell is None:
-                            x -= self.TileMap.cellSize.x
-                            x = int(x)
-                        else:
-                            self.hitbox.left = cell.rect.right
-                            shudmove = False
-                            break
-                elif self.DashDir > 0:
-                    while x < i + (self.dashDistance * self.TileMap.cellSize.x):
-                        cell = self.TileMap.GetTileAt((x, self.hitbox.bottom))
-
-                        if cell is None:
-                            x += self.TileMap.cellSize.x
-                            x = int(x)
-                        else:
+                while rect.x < x + self.dashDistance:
+                    self.canMove = False
+                    rect.x += 1
+                    for cell in self.TileMap.cells:
+                        if rect.colliderect(cell) and cell.rect.bottom == rect.bottom:
                             self.hitbox.right = cell.rect.left
-                            shudmove = False
-                            break
+                            self.dashing = True
+                            self.canMove = True
+                            return
+                self.canMove = True
+                self.hitbox = rect
+                self.dashing = True
 
-                if shudmove:
-                    self.hitbox.x = x
+        for key in self.dashLeftKeys:
+            if keys[key] and not self.dashing:
+                self.canMove = False
+                while rect.x > x - self.dashDistance:
+                    rect.x -= 1
+                    for cell in self.TileMap.cells:
+                        if rect.colliderect(cell) and cell.rect.bottom == rect.bottom:
+                            self.hitbox.left = cell.rect.right
+                            self.dashing = True
+                            self.canMove = True
+                            return
+
+                self.hitbox = rect
+                self.canMove = True
                 self.dashing = True
 
     # Updating the player. Drawing the player, getting input, jumping, etc.
@@ -193,8 +203,3 @@ class Player:
         self.GetPlayerInput()
         self.DrawHitBox()
 
-        if self.dashing:
-            self.dashdown -= 0.05
-        if self.dashdown <= 0:
-            self.dashing = False
-            self.dashdown = 1
