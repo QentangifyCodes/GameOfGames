@@ -13,7 +13,7 @@ class Player:
         # Dashing
         self.DashDir = 0
         self.dashing = False
-        self.dashTime = 5
+        self.dashTime = 2
         self.dashdown = self.dashTime
         self.dashDistance = 300
 
